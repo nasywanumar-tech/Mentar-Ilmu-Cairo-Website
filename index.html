@@ -1,5 +1,3 @@
-
-```html
 <!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
 <head>
@@ -66,25 +64,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
 
     <style>
-        /* Custom scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #FAF9F7; }
         ::-webkit-scrollbar-thumb { background: #C8923E; border-radius: 4px; }
 
-        /* Wave decoration SVG inline */
-        .wave-decoration {
-            display: inline-block;
-            vertical-align: middle;
-        }
+        .wave-decoration { display: inline-block; vertical-align: middle; }
 
-        /* Partnership carousel */
         .carousel-container {
             scrollbar-width: none;
             -ms-overflow-style: none;
         }
         .carousel-container::-webkit-scrollbar { display: none; }
 
-        /* Hero collage grid */
         .hero-collage {
             display: grid;
             grid-template-columns: 1.2fr 0.8fr;
@@ -118,7 +109,6 @@
             transform: scale(1.05);
         }
 
-        /* Floating badge */
         .floating-badge {
             position: absolute;
             bottom: -18px;
@@ -133,16 +123,12 @@
             border-left: 4px solid #C8923E;
         }
 
-        /* Mobile menu overlay */
         .mobile-menu {
             transform: translateX(100%);
             transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .mobile-menu.active {
-            transform: translateX(0);
-        }
+        .mobile-menu.active { transform: translateX(0); }
 
-        /* Search overlay */
         .search-overlay {
             opacity: 0;
             visibility: hidden;
@@ -153,7 +139,6 @@
             visibility: visible;
         }
 
-        /* Card hover */
         .program-card {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -173,12 +158,8 @@
                 grid-column: 1 / 3;
                 height: 280px;
             }
-            .hero-collage .img-top {
-                height: 150px;
-            }
-            .hero-collage .img-bottom {
-                height: 150px;
-            }
+            .hero-collage .img-top { height: 150px; }
+            .hero-collage .img-bottom { height: 150px; }
             .floating-badge {
                 bottom: -14px;
                 left: 8px;
@@ -202,7 +183,6 @@
                              alt="Mentari Ilmu Cairo Logo"
                              class="w-full h-full object-contain rounded-md"
                              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                        <!-- Fallback jika logo belum ada -->
                         <div class="w-full h-full hidden items-center justify-center bg-navy text-gold font-bold text-xs lg:text-sm rounded-md">
                             MIC
                         </div>
@@ -212,7 +192,7 @@
                     </span>
                 </a>
 
-                <!-- Menu Navigasi (Tengah - Desktop) -->
+                <!-- Menu Navigasi (Desktop) -->
                 <nav class="hidden lg:flex items-center gap-1">
                     <a href="#home" class="nav-link px-4 py-2 text-sm font-medium text-white/80 hover:text-gold transition-colors rounded-lg hover:bg-white/5">Home</a>
                     <a href="#gallery" class="nav-link px-4 py-2 text-sm font-medium text-white/80 hover:text-gold transition-colors rounded-lg hover:bg-white/5">Galeri</a>
@@ -223,16 +203,13 @@
                     </a>
                 </nav>
 
-                <!-- Ikon Kanan (Search + Hamburger) -->
+                <!-- Ikon Kanan -->
                 <div class="flex items-center gap-2 lg:gap-3">
-                    <!-- Search Icon -->
                     <button id="searchToggle" class="p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-all" aria-label="Cari">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"/>
                         </svg>
                     </button>
-
-                    <!-- Hamburger (Mobile) -->
                     <button id="menuToggle" class="lg:hidden p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-all" aria-label="Menu">
                         <svg id="menuIconOpen" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
@@ -245,7 +222,7 @@
             </div>
         </div>
 
-        <!-- Mobile Menu (Slide dari kanan) -->
+        <!-- Mobile Menu -->
         <div id="mobileMenu" class="mobile-menu fixed top-0 right-0 h-full w-72 bg-navy-light shadow-2xl lg:hidden z-40 pt-20 px-6">
             <nav class="flex flex-col gap-2">
                 <a href="#home" class="mobile-nav-link block px-4 py-3 text-white/80 hover:text-gold hover:bg-white/5 rounded-lg transition-all">🏠 Home</a>
@@ -257,7 +234,6 @@
                 </a>
             </nav>
         </div>
-        <!-- Overlay mobile -->
         <div id="mobileOverlay" class="fixed inset-0 bg-black/50 hidden lg:hidden z-30" aria-hidden="true"></div>
     </header>
 
@@ -280,28 +256,35 @@
 
 
     <!-- ==================== HERO SECTION ==================== -->
+    <!--
+        FOTO-FOTO HERO:
+        - Main   : Al-Azhar Mosque courtyard (Masjid Al-Azhar, Kairo)
+        - Top    : Mahasiswa/i sedang belajar di ruang belajar Al-Azhar
+        - Bottom : Pemandangan Islamic Cairo dengan menara masjid
+        Semua foto dari Unsplash — bertema Al-Azhar & Kota Kairo
+    -->
     <section id="home" class="pt-24 lg:pt-32 pb-16 lg:pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div class="grid lg:grid-cols-5 gap-8 lg:gap-12 items-center">
 
             <!-- Kolom Kiri: Kolase Foto -->
             <div class="lg:col-span-3 relative animate-fade-in">
                 <div class="hero-collage">
-                    <!-- Foto utama (besar) -->
+                    <!-- Foto utama: Al-Azhar Mosque Courtyard (by Mo Gabr, Unsplash) -->
                     <div class="img-main img-card shadow-lg">
-                        <img src="https://picsum.photos/seed/cairo1/600/850"
-                             alt="Mentari Ilmu Cairo - Kegiatan Belajar"
+                        <img src="https://images.unsplash.com/photo-1572252009286-268acec5ca0a?w=800&h=1000&fit=crop&auto=format"
+                             alt="Masjid Al-Azhar — Kairo, Mesir"
                              loading="eager">
                     </div>
-                    <!-- Foto kecil atas -->
+                    <!-- Foto kecil atas: Mahasiswa belajar di Islamic study hall (unsplash) -->
                     <div class="img-top img-card shadow-md">
-                        <img src="https://picsum.photos/seed/cairo2/400/350"
-                             alt="Mentari Ilmu Cairo - Diskusi"
+                        <img src="https://images.unsplash.com/photo-1609599006353-e629aaabfeae?w=500&h=400&fit=crop&auto=format"
+                             alt="Mahasiswa belajar — Al-Azhar University"
                              loading="lazy">
                     </div>
-                    <!-- Foto sedang bawah -->
+                    <!-- Foto kecil bawah: Islamic Cairo streets / minarets -->
                     <div class="img-bottom img-card shadow-md">
-                        <img src="https://picsum.photos/seed/cairo3/400/450"
-                             alt="Mentari Ilmu Cairo - Wisuda"
+                        <img src="https://images.unsplash.com/photo-1533910534004-5b8b6f5c1c53?w=500&h=500&fit=crop&auto=format"
+                             alt="Islamic Cairo — Menara Masjid"
                              loading="lazy">
                     </div>
 
@@ -315,17 +298,14 @@
 
             <!-- Kolom Kanan: Konten Teks -->
             <div class="lg:col-span-2 animate-slide-up">
-                <!-- Garis aksen emas -->
                 <div class="w-16 h-1 bg-gold rounded-full mb-4"></div>
-
-                <!-- Headline -->
                 <h1 class="text-3xl lg:text-4xl xl:text-5xl font-display font-bold text-navy leading-tight mb-3">
                     Hi! We're<br>
                     <span class="text-gold">Mentari Ilmu</span><br>
                     Cairo Program
                 </h1>
 
-                <!-- Garis bergelombang dekoratif (SVG) -->
+                <!-- Garis bergelombang dekoratif -->
                 <svg class="wave-decoration my-3" width="80" height="22" viewBox="0 0 80 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M0 11 Q10 0, 20 11 T40 11 T60 11 T80 11"
                           stroke="#982637" stroke-width="2.5" stroke-linecap="round" fill="none"/>
@@ -333,14 +313,12 @@
                           stroke="#C8923E" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.6"/>
                 </svg>
 
-                <!-- Deskripsi -->
                 <p class="text-gray-600 leading-relaxed mb-6 text-sm lg:text-base max-w-md">
-                    Program pembinaan akademik dan spiritual untuk mahasiswa Indonesia di Kairo, Mesir.
-                    Kami berkomitmen mencetak generasi unggul yang berilmu, berakhlak, dan siap berkontribusi
-                    untuk bangsa dan agama.
+                    Program pembinaan akademik dan spiritual untuk mahasiswa Indonesia
+                    di Kairo, Mesir. Kami berkomitmen mencetak generasi unggul yang
+                    berilmu, berakhlak, dan siap berkontribusi untuk bangsa dan agama.
                 </p>
 
-                <!-- CTA Buttons -->
                 <div class="flex flex-wrap gap-3">
                     <a href="#programs" class="inline-flex items-center gap-2 px-6 py-3 bg-navy text-white font-semibold rounded-full hover:bg-navy-light transition-all shadow-lg hover:shadow-xl text-sm">
                         Jelajahi Program
@@ -355,13 +333,11 @@
             </div>
         </div>
 
-        <!-- ==================== PARTNERSHIP CAROUSEL ==================== -->
+        <!-- PARTNERSHIP CAROUSEL -->
         <div class="mt-16 lg:mt-20 pt-10 border-t border-gray-200">
             <p class="text-center text-xs uppercase tracking-widest text-gray-400 font-medium mb-6">Our Partnerships</p>
             <div class="relative max-w-4xl mx-auto">
-                <!-- Carousel -->
                 <div id="partnershipCarousel" class="carousel-container flex gap-8 overflow-x-auto scroll-smooth pb-4 items-center justify-start lg:justify-center">
-                    <!-- Partner items (akan diisi JS atau static) -->
                     <div class="flex-shrink-0 w-28 h-16 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center p-3 grayscale hover:grayscale-0 transition-all duration-300 hover:shadow-md">
                         <span class="text-xs text-gray-400 font-medium">Al-Azhar Univ.</span>
                     </div>
@@ -382,7 +358,6 @@
                     </div>
                 </div>
 
-                <!-- Arrow Navigasi -->
                 <button id="carouselPrev" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 lg:-translate-x-10 w-9 h-9 bg-white shadow-lg rounded-full flex items-center justify-center text-navy hover:bg-navy hover:text-white transition-all z-10 hidden lg:flex">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
@@ -399,6 +374,7 @@
 
 
     <!-- ==================== ABOUT SECTION ==================== -->
+    <!-- Foto: Masjid Muhammad Ali, Cairo Citadel — dari Unsplash -->
     <section class="py-16 lg:py-24 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-2 gap-12 items-center">
@@ -461,7 +437,6 @@
                             </li>
                         </ul>
                     </div>
-                    <!-- Elemen dekoratif -->
                     <div class="absolute -bottom-3 -right-3 w-24 h-24 bg-gold/20 rounded-2xl -z-10 hidden lg:block"></div>
                     <div class="absolute -top-3 -left-3 w-16 h-16 bg-accent-red/15 rounded-2xl -z-10 hidden lg:block"></div>
                 </div>
@@ -492,7 +467,6 @@
                     </a>
                 </div>
 
-                <!-- Program Card 2 -->
                 <div class="program-card bg-white rounded-2xl p-6 shadow-md border border-gray-100">
                     <div class="w-12 h-12 bg-navy rounded-xl flex items-center justify-center mb-4">
                         <span class="text-2xl">🎓</span>
@@ -504,7 +478,6 @@
                     </a>
                 </div>
 
-                <!-- Program Card 3 -->
                 <div class="program-card bg-white rounded-2xl p-6 shadow-md border border-gray-100">
                     <div class="w-12 h-12 bg-navy rounded-xl flex items-center justify-center mb-4">
                         <span class="text-2xl">🌍</span>
@@ -516,7 +489,6 @@
                     </a>
                 </div>
 
-                <!-- Program Card 4 -->
                 <div class="program-card bg-white rounded-2xl p-6 shadow-md border border-gray-100">
                     <div class="w-12 h-12 bg-navy rounded-xl flex items-center justify-center mb-4">
                         <span class="text-2xl">🤝</span>
@@ -528,7 +500,6 @@
                     </a>
                 </div>
 
-                <!-- Program Card 5 -->
                 <div class="program-card bg-white rounded-2xl p-6 shadow-md border border-gray-100">
                     <div class="w-12 h-12 bg-navy rounded-xl flex items-center justify-center mb-4">
                         <span class="text-2xl">💡</span>
@@ -540,7 +511,6 @@
                     </a>
                 </div>
 
-                <!-- Program Card 6 -->
                 <div class="program-card bg-white rounded-2xl p-6 shadow-md border border-gray-100">
                     <div class="w-12 h-12 bg-navy rounded-xl flex items-center justify-center mb-4">
                         <span class="text-2xl">🏕️</span>
@@ -557,6 +527,7 @@
 
 
     <!-- ==================== GALLERY SECTION ==================== -->
+    <!-- Semua foto galeri: Kairo & Al-Azhar -->
     <section id="gallery" class="py-16 lg:py-24 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
@@ -565,31 +536,39 @@
                 <div class="w-12 h-1 bg-accent-red rounded-full mx-auto mt-3"></div>
             </div>
 
-            <!-- Grid Galeri -->
+            <!-- Grid Galeri — 8 Foto Cairo / Al-Azhar -->
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 lg:gap-4">
+                <!-- 1. Al-Azhar Mosque gates -->
                 <div class="aspect-square rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all group">
-                    <img src="https://picsum.photos/seed/gallery1/500/500" alt="Kegiatan 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <img src="https://images.unsplash.com/photo-1569511137119-45a2e5b86898?w=500&h=500&fit=crop&auto=format" alt="Gerbang Masjid Al-Azhar" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                 </div>
+                <!-- 2. Cairo street with mosque -->
                 <div class="aspect-square rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all group">
-                    <img src="https://picsum.photos/seed/gallery2/500/500" alt="Kegiatan 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <img src="https://images.unsplash.com/photo-1572252009286-268acec5ca0a?w=500&h=500&fit=crop&auto=format" alt="Koridor Al-Azhar" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                 </div>
+                <!-- 3. Islamic Cairo architecture -->
                 <div class="aspect-square rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all group">
-                    <img src="https://picsum.photos/seed/gallery3/500/500" alt="Kegiatan 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <img src="https://images.unsplash.com/photo-1533910534004-5b8b6f5c1c53?w=500&h=500&fit=crop&auto=format" alt="Arsitektur Islamic Cairo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                 </div>
+                <!-- 4. Cairo Khan El-Khalili -->
                 <div class="aspect-square rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all group">
-                    <img src="https://picsum.photos/seed/gallery4/500/500" alt="Kegiatan 4" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <img src="https://images.unsplash.com/photo-1553913861-c0fddf2619ee?w=500&h=500&fit=crop&auto=format" alt="Khan El-Khalili Kairo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                 </div>
+                <!-- 5. Al-Azhar Park -->
                 <div class="aspect-square rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all group hidden md:block">
-                    <img src="https://picsum.photos/seed/gallery5/500/500" alt="Kegiatan 5" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <img src="https://images.unsplash.com/photo-1601440425955-1ebe4f8a5a19?w=500&h=500&fit=crop&auto=format" alt="Taman Al-Azhar Kairo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                 </div>
+                <!-- 6. Mosques of Cairo -->
                 <div class="aspect-square rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all group hidden md:block">
-                    <img src="https://picsum.photos/seed/gallery6/500/500" alt="Kegiatan 6" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <img src="https://images.unsplash.com/photo-1548013146-72479768bada?w=500&h=500&fit=crop&auto=format" alt="Masjid di Kairo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                 </div>
+                <!-- 7. Cairo Citadel -->
                 <div class="aspect-square rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all group hidden lg:block">
-                    <img src="https://picsum.photos/seed/gallery7/500/500" alt="Kegiatan 7" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=500&h=500&fit=crop&auto=format" alt="Benteng Kairo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                 </div>
+                <!-- 8. Nile river Cairo -->
                 <div class="aspect-square rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all group hidden lg:block">
-                    <img src="https://picsum.photos/seed/gallery8/500/500" alt="Kegiatan 8" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <img src="https://images.unsplash.com/photo-1570042228232-1e24a2c2e4d1?w=500&h=500&fit=crop&auto=format" alt="Sungai Nil Kairo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                 </div>
             </div>
 
@@ -606,6 +585,7 @@
 
 
     <!-- ==================== NEWS SECTION ==================== -->
+    <!-- Foto berita: Al-Azhar & Cairo -->
     <section id="news" class="py-16 lg:py-24 bg-cream">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-end justify-between mb-12">
@@ -620,10 +600,10 @@
             </div>
 
             <div class="grid md:grid-cols-3 gap-6">
-                <!-- News Card 1 -->
+                <!-- News 1: Al-Azhar courtyard photo -->
                 <article class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-all group">
                     <div class="h-48 overflow-hidden">
-                        <img src="https://picsum.photos/seed/news1/600/400" alt="Berita 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <img src="https://images.unsplash.com/photo-1572252009286-268acec5ca0a?w=600&h=400&fit=crop&auto=format" alt="Program Tahfidz Al-Azhar" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </div>
                     <div class="p-5">
                         <span class="text-xs text-gold font-semibold uppercase tracking-wider">Akademik</span>
@@ -633,10 +613,10 @@
                     </div>
                 </article>
 
-                <!-- News Card 2 -->
+                <!-- News 2: Islamic Cairo streets -->
                 <article class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-all group">
                     <div class="h-48 overflow-hidden">
-                        <img src="https://picsum.photos/seed/news2/600/400" alt="Berita 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <img src="https://images.unsplash.com/photo-1533910534004-5b8b6f5c1c53?w=600&h=400&fit=crop&auto=format" alt="Rihlah Ilmiah Kairo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </div>
                     <div class="p-5">
                         <span class="text-xs text-gold font-semibold uppercase tracking-wider">Kegiatan</span>
@@ -646,10 +626,10 @@
                     </div>
                 </article>
 
-                <!-- News Card 3 -->
+                <!-- News 3: Cairo mosques silhouette -->
                 <article class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-all group">
                     <div class="h-48 overflow-hidden">
-                        <img src="https://picsum.photos/seed/news3/600/400" alt="Berita 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <img src="https://images.unsplash.com/photo-1569511137119-45a2e5b86898?w=600&h=400&fit=crop&auto=format" alt="Wisuda Al-Azhar" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </div>
                     <div class="p-5">
                         <span class="text-xs text-gold font-semibold uppercase tracking-wider">Prestasi</span>
@@ -660,7 +640,6 @@
                 </article>
             </div>
 
-            <!-- Mobile link -->
             <div class="text-center mt-8 sm:hidden">
                 <a href="#" class="inline-flex items-center gap-1 text-gold-dark font-medium text-sm hover:text-gold transition-colors">
                     Semua Berita <span>→</span>
@@ -672,7 +651,6 @@
 
     <!-- ==================== REGISTRATION CTA ==================== -->
     <section id="registration" class="py-16 lg:py-20 bg-navy relative overflow-hidden">
-        <!-- Decorative elements -->
         <div class="absolute top-0 left-0 w-64 h-64 bg-gold/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
         <div class="absolute bottom-0 right-0 w-80 h-80 bg-accent-red/10 rounded-full translate-x-1/3 translate-y-1/3 blur-3xl"></div>
 
@@ -701,7 +679,6 @@
     <footer class="bg-navy-dark text-white/70 pt-16 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid md:grid-cols-4 gap-8 mb-12">
-                <!-- Brand -->
                 <div class="md:col-span-1">
                     <div class="flex items-center gap-3 mb-4">
                         <div class="w-10 h-10 rounded-lg bg-white p-0.5 overflow-hidden">
@@ -715,8 +692,6 @@
                         Program pembinaan mahasiswa Indonesia di Kairo, Mesir. Mencetak generasi unggul, berilmu, dan berakhlak mulia.
                     </p>
                 </div>
-
-                <!-- Quick Links -->
                 <div>
                     <h4 class="text-white font-semibold mb-4 text-sm">Menu Cepat</h4>
                     <ul class="space-y-2 text-sm">
@@ -727,8 +702,6 @@
                         <li><a href="#registration" class="hover:text-gold transition-colors">Pendaftaran</a></li>
                     </ul>
                 </div>
-
-                <!-- Programs -->
                 <div>
                     <h4 class="text-white font-semibold mb-4 text-sm">Program</h4>
                     <ul class="space-y-2 text-sm">
@@ -739,8 +712,6 @@
                         <li><a href="#" class="hover:text-gold transition-colors">Soft Skills Development</a></li>
                     </ul>
                 </div>
-
-                <!-- Contact -->
                 <div>
                     <h4 class="text-white font-semibold mb-4 text-sm">Kontak</h4>
                     <ul class="space-y-3 text-sm">
@@ -759,8 +730,6 @@
                     </ul>
                 </div>
             </div>
-
-            <!-- Bottom bar -->
             <div class="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <p class="text-xs text-white/40">
                     &copy; 2025 Mentari Ilmu Cairo Program. All rights reserved.
@@ -777,7 +746,6 @@
     <!-- ==================== JAVASCRIPT ==================== -->
     <script>
         (function() {
-            // ----- Mobile Menu Toggle -----
             const menuToggle = document.getElementById('menuToggle');
             const mobileMenu = document.getElementById('mobileMenu');
             const mobileOverlay = document.getElementById('mobileOverlay');
@@ -792,7 +760,6 @@
                 menuIconClose.classList.remove('hidden');
                 document.body.style.overflow = 'hidden';
             }
-
             function closeMobileMenu() {
                 mobileMenu.classList.remove('active');
                 mobileOverlay.classList.add('hidden');
@@ -802,19 +769,12 @@
             }
 
             menuToggle.addEventListener('click', () => {
-                if (mobileMenu.classList.contains('active')) {
-                    closeMobileMenu();
-                } else {
-                    openMobileMenu();
-                }
+                mobileMenu.classList.contains('active') ? closeMobileMenu() : openMobileMenu();
             });
-
             mobileOverlay.addEventListener('click', closeMobileMenu);
-            mobileNavLinks.forEach(link => {
-                link.addEventListener('click', closeMobileMenu);
-            });
+            mobileNavLinks.forEach(link => link.addEventListener('click', closeMobileMenu));
 
-            // ----- Search Overlay Toggle -----
+            // Search
             const searchToggle = document.getElementById('searchToggle');
             const searchOverlay = document.getElementById('searchOverlay');
             const searchClose = document.getElementById('searchClose');
@@ -825,13 +785,11 @@
                 setTimeout(() => searchInput.focus(), 100);
                 document.body.style.overflow = 'hidden';
             });
-
             searchClose.addEventListener('click', () => {
                 searchOverlay.classList.remove('active');
                 searchInput.value = '';
                 document.body.style.overflow = '';
             });
-
             searchOverlay.addEventListener('click', (e) => {
                 if (e.target === searchOverlay) {
                     searchOverlay.classList.remove('active');
@@ -839,7 +797,6 @@
                     document.body.style.overflow = '';
                 }
             });
-
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && searchOverlay.classList.contains('active')) {
                     searchOverlay.classList.remove('active');
@@ -848,24 +805,16 @@
                 }
             });
 
-            // ----- Partnership Carousel -----
+            // Carousel
             const carousel = document.getElementById('partnershipCarousel');
             const prevBtn = document.getElementById('carouselPrev');
             const nextBtn = document.getElementById('carouselNext');
-
             if (carousel && prevBtn && nextBtn) {
-                const scrollAmount = 250;
-                prevBtn.addEventListener('click', () => {
-                    carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-                });
-                nextBtn.addEventListener('click', () => {
-                    carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-                });
-
-                // Auto-scroll carousel
-                let autoScrollInterval;
-                function startAutoScroll() {
-                    autoScrollInterval = setInterval(() => {
+                prevBtn.addEventListener('click', () => carousel.scrollBy({ left: -250, behavior: 'smooth' }));
+                nextBtn.addEventListener('click', () => carousel.scrollBy({ left: 250, behavior: 'smooth' }));
+                let auto;
+                function startAuto() {
+                    auto = setInterval(() => {
                         if (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 10) {
                             carousel.scrollTo({ left: 0, behavior: 'smooth' });
                         } else {
@@ -873,67 +822,50 @@
                         }
                     }, 3000);
                 }
-                function stopAutoScroll() {
-                    clearInterval(autoScrollInterval);
-                }
-
-                carousel.addEventListener('mouseenter', stopAutoScroll);
-                carousel.addEventListener('mouseleave', startAutoScroll);
-                startAutoScroll();
+                carousel.addEventListener('mouseenter', () => clearInterval(auto));
+                carousel.addEventListener('mouseleave', startAuto);
+                startAuto();
             }
 
-            // ----- Header Shadow on Scroll -----
+            // Header shadow
             const header = document.getElementById('mainHeader');
             window.addEventListener('scroll', () => {
-                if (window.scrollY > 20) {
-                    header.classList.add('shadow-xl');
-                } else {
-                    header.classList.remove('shadow-xl');
-                }
+                header.classList.toggle('shadow-xl', window.scrollY > 20);
             });
 
-            // ----- Active Nav Link on Scroll -----
+            // Active nav
             const sections = document.querySelectorAll('section[id]');
             const navLinks = document.querySelectorAll('.nav-link');
-
-            function updateActiveLink() {
-                let scrollPos = window.scrollY + 120;
-                sections.forEach(section => {
-                    const top = section.offsetTop;
-                    const height = section.offsetHeight;
-                    const id = section.getAttribute('id');
-                    if (scrollPos >= top && scrollPos < top + height) {
-                        navLinks.forEach(link => {
-                            link.classList.remove('text-gold', 'font-semibold');
-                            link.classList.add('text-white/80');
-                            if (link.getAttribute('href') === '#' + id) {
-                                link.classList.add('text-gold', 'font-semibold');
-                                link.classList.remove('text-white/80');
+            window.addEventListener('scroll', () => {
+                let pos = window.scrollY + 120;
+                sections.forEach(s => {
+                    if (pos >= s.offsetTop && pos < s.offsetTop + s.offsetHeight) {
+                        navLinks.forEach(l => {
+                            l.classList.remove('text-gold', 'font-semibold');
+                            l.classList.add('text-white/80');
+                            if (l.getAttribute('href') === '#' + s.id) {
+                                l.classList.add('text-gold', 'font-semibold');
+                                l.classList.remove('text-white/80');
                             }
                         });
                     }
                 });
-            }
+            }, { passive: true });
 
-            window.addEventListener('scroll', updateActiveLink, { passive: true });
-
-            // ----- Smooth reveal on scroll (Intersection Observer) -----
-            const revealElements = document.querySelectorAll('.animate-fade-in, .animate-slide-up');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
-            revealElements.forEach(el => {
-                // Set initial state for JS-based animation
+            // Reveal animation
+            document.querySelectorAll('.animate-fade-in, .animate-slide-up').forEach(el => {
                 el.style.opacity = '0';
                 el.style.transform = 'translateY(20px)';
                 el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                observer.observe(el);
+                new IntersectionObserver((entries, obs) => {
+                    entries.forEach(e => {
+                        if (e.isIntersecting) {
+                            e.target.style.opacity = '1';
+                            e.target.style.transform = 'translateY(0)';
+                            obs.unobserve(e.target);
+                        }
+                    });
+                }, { threshold: 0.1 }).observe(el);
             });
 
             console.log('✅ Mentari Ilmu Cairo Program — Website siap.');
@@ -941,87 +873,3 @@
     </script>
 </body>
 </html>
-```
-
----
-
-## 2. 🗄️ `database.sql` — Skema MySQL
-
-```sql
--- =============================================
--- Database: mentari_ilmu_cairo
--- =============================================
-CREATE DATABASE IF NOT EXISTS `mentari_ilmu_cairo`
-  DEFAULT CHARACTER SET utf8mb4
-  COLLATE utf8mb4_unicode_ci;
-
-USE `mentari_ilmu_cairo`;
-
--- Tabel Program
-CREATE TABLE `programs` (
-    `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    `title` VARCHAR(200) NOT NULL,
-    `slug` VARCHAR(200) NOT NULL UNIQUE,
-    `description` TEXT NOT NULL,
-    `icon` VARCHAR(50) DEFAULT NULL,
-    `image` VARCHAR(255) DEFAULT NULL,
-    `is_active` TINYINT(1) DEFAULT 1,
-    `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
-    `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB;
-
--- Tabel Galeri
-CREATE TABLE `galleries` (
-    `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    `title` VARCHAR(200) NOT NULL,
-    `image` VARCHAR(255) NOT NULL,
-    `caption` TEXT DEFAULT NULL,
-    `category` ENUM('kegiatan', 'akademik', 'sosial', 'lainnya') DEFAULT 'kegiatan',
-    `is_published` TINYINT(1) DEFAULT 1,
-    `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB;
-
--- Tabel Berita
-CREATE TABLE `news` (
-    `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    `title` VARCHAR(255) NOT NULL,
-    `slug` VARCHAR(255) NOT NULL UNIQUE,
-    `excerpt` TEXT NOT NULL,
-    `content` LONGTEXT NOT NULL,
-    `image` VARCHAR(255) DEFAULT NULL,
-    `category` VARCHAR(100) DEFAULT NULL,
-    `is_published` TINYINT(1) DEFAULT 0,
-    `published_at` DATETIME DEFAULT NULL,
-    `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
-    `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB;
-
--- Tabel Partners
-CREATE TABLE `partners` (
-    `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    `name` VARCHAR(200) NOT NULL,
-    `logo` VARCHAR(255) NOT NULL,
-    `website` VARCHAR(255) DEFAULT NULL,
-    `sort_order` INT DEFAULT 0,
-    `is_active` TINYINT(1) DEFAULT 1,
-    `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB;
-
--- Tabel Pendaftaran
-CREATE TABLE `registrations` (
-    `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    `full_name` VARCHAR(200) NOT NULL,
-    `email` VARCHAR(200) NOT NULL,
-    `phone` VARCHAR(30) DEFAULT NULL,
-    `university` VARCHAR(200) DEFAULT NULL,
-    `program_id` INT UNSIGNED DEFAULT NULL,
-    `message` TEXT DEFAULT NULL,
-    `status` ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
-    `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (`program_id`) REFERENCES `programs`(`id`) ON DELETE SET NULL
-) ENGINE=InnoDB;
-
--- Seed: sample data
-INSERT INTO `programs` (`title`, `slug`, `description`, `icon`) VALUES
-('Tahfidz & Tahsin Al-Qur\'an', 'tahfidz-tahsin', 'Program menghafal dan memperbaiki bacaan Al-Qur\'an dengan bimbingan syaikh bersanad dari Al-Azhar.', '📖'),
-('Bimbingan Akademik', 'bimbingan-akademik', 'Pendampingan intensif mata kuliah dan persiapan ujian bersama mentor senior.', '
