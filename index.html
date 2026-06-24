@@ -1,0 +1,1063 @@
+Saya akan membangun website **Mentari Ilmu Cairo Program** sesuai PRD, lengkap dengan front-end (Tailwind CSS + Vanilla JS), back-end CodeIgniter structure, dan database MySQL. Berikut implementasinya:
+
+---
+
+## 📁 Struktur Proyek
+
+```
+mentari-ilmu-cairo/
+├── index.html                          # Halaman utama (front-end)
+├── assets/
+│   ├── images/
+│   │   ├── logo.jpeg                   # Logo dari images (4).jpeg
+│   │   ├── hero-1.jpg                  # Kolase foto 1
+│   │   ├── hero-2.jpg                  # Kolase foto 2
+│   │   └── hero-3.jpg                  # Kolase foto 3
+│   └── js/
+│       └── main.js                     # JavaScript interaksi
+├── application/                        # CodeIgniter (backend)
+│   ├── controllers/
+│   │   └── Home.php
+│   ├── models/
+│   │   └── Program_model.php
+│   ├── views/
+│   │   ├── templates/
+│   │   │   ├── header.php
+│   │   │   └── footer.php
+│   │   └── home/
+│   │       └── index.php
+│   └── config/
+│       └── database.php
+└── database.sql                        # Skema MySQL
+```
+
+---
+
+## 1. 🎨 `index.html` — Halaman Utama (Front-End Lengkap)
+
+```html
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentari Ilmu Cairo Program — Empowering Students in Cairo</title>
+    <meta name="description" content="Program Mentari Ilmu di Kairo — menghadirkan pendidikan berkualitas untuk mahasiswa Indonesia di Mesir.">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            DEFAULT: '#0B1D3A',
+                            light: '#132D52',
+                            dark: '#071325',
+                        },
+                        gold: {
+                            DEFAULT: '#C8923E',
+                            light: '#D4A85A',
+                            dark: '#A6762A',
+                        },
+                        accent: {
+                            red: '#982637',
+                            'red-light': '#B83042',
+                            'red-dark': '#7A1E2C',
+                        },
+                        cream: '#FAF9F7',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Segoe UI', 'system-ui', 'sans-serif'],
+                        display: ['Playfair Display', 'Georgia', 'serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-out forwards',
+                        'slide-up': 'slideUp 0.8s ease-out forwards',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                    },
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #FAF9F7; }
+        ::-webkit-scrollbar-thumb { background: #C8923E; border-radius: 4px; }
+
+        /* Wave decoration SVG inline */
+        .wave-decoration {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        /* Partnership carousel */
+        .carousel-container {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .carousel-container::-webkit-scrollbar { display: none; }
+
+        /* Hero collage grid */
+        .hero-collage {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            grid-template-rows: auto auto;
+            gap: 12px;
+            position: relative;
+        }
+        .hero-collage .img-main {
+            grid-row: 1 / 3;
+            border-radius: 16px;
+            overflow: hidden;
+            height: 420px;
+        }
+        .hero-collage .img-top {
+            border-radius: 16px;
+            overflow: hidden;
+            height: 170px;
+        }
+        .hero-collage .img-bottom {
+            border-radius: 16px;
+            overflow: hidden;
+            height: 230px;
+        }
+        .hero-collage img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .hero-collage .img-card:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Floating badge */
+        .floating-badge {
+            position: absolute;
+            bottom: -18px;
+            left: -18px;
+            background: #0B1D3A;
+            color: #FAF9F7;
+            padding: 16px 22px;
+            border-radius: 12px;
+            box-shadow: 0 12px 32px rgba(11, 29, 58, 0.30);
+            z-index: 10;
+            animation: float 3s ease-in-out infinite;
+            border-left: 4px solid #C8923E;
+        }
+
+        /* Mobile menu overlay */
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        /* Search overlay */
+        .search-overlay {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .search-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Card hover */
+        .program-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .program-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(11, 29, 58, 0.12);
+        }
+
+        @media (max-width: 768px) {
+            .hero-collage {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: auto;
+                gap: 8px;
+            }
+            .hero-collage .img-main {
+                grid-row: 1 / 2;
+                grid-column: 1 / 3;
+                height: 280px;
+            }
+            .hero-collage .img-top {
+                height: 150px;
+            }
+            .hero-collage .img-bottom {
+                height: 150px;
+            }
+            .floating-badge {
+                bottom: -14px;
+                left: 8px;
+                padding: 12px 16px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-cream text-gray-800 font-sans antialiased">
+
+    <!-- ==================== HEADER / NAVIGASI ==================== -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-navy/95 backdrop-blur-md shadow-lg transition-all duration-300" id="mainHeader">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 lg:h-20">
+
+                <!-- Logo + Nama (Kiri) -->
+                <a href="#" class="flex items-center gap-3 flex-shrink-0">
+                    <div class="w-10 h-10 lg:w-11 lg:h-11 rounded-lg bg-white p-0.5 overflow-hidden">
+                        <img src="assets/images/logo.jpeg"
+                             alt="Mentari Ilmu Cairo Logo"
+                             class="w-full h-full object-contain rounded-md"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <!-- Fallback jika logo belum ada -->
+                        <div class="w-full h-full hidden items-center justify-center bg-navy text-gold font-bold text-xs lg:text-sm rounded-md">
+                            MIC
+                        </div>
+                    </div>
+                    <span class="text-white font-semibold text-sm lg:text-base leading-tight max-w-[140px] lg:max-w-none">
+                        Mentari Ilmu<br class="lg:hidden"> Cairo
+                    </span>
+                </a>
+
+                <!-- Menu Navigasi (Tengah - Desktop) -->
+                <nav class="hidden lg:flex items-center gap-1">
+                    <a href="#home" class="nav-link px-4 py-2 text-sm font-medium text-white/80 hover:text-gold transition-colors rounded-lg hover:bg-white/5">Home</a>
+                    <a href="#gallery" class="nav-link px-4 py-2 text-sm font-medium text-white/80 hover:text-gold transition-colors rounded-lg hover:bg-white/5">Galeri</a>
+                    <a href="#news" class="nav-link px-4 py-2 text-sm font-medium text-white/80 hover:text-gold transition-colors rounded-lg hover:bg-white/5">News</a>
+                    <a href="#programs" class="nav-link px-4 py-2 text-sm font-medium text-white/80 hover:text-gold transition-colors rounded-lg hover:bg-white/5">Our Programs</a>
+                    <a href="#registration" class="nav-link px-5 py-2 text-sm font-semibold bg-gold text-navy rounded-full hover:bg-gold-light transition-all shadow-md hover:shadow-lg">
+                        Pendaftaran
+                    </a>
+                </nav>
+
+                <!-- Ikon Kanan (Search + Hamburger) -->
+                <div class="flex items-center gap-2 lg:gap-3">
+                    <!-- Search Icon -->
+                    <button id="searchToggle" class="p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-all" aria-label="Cari">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"/>
+                        </svg>
+                    </button>
+
+                    <!-- Hamburger (Mobile) -->
+                    <button id="menuToggle" class="lg:hidden p-2 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition-all" aria-label="Menu">
+                        <svg id="menuIconOpen" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                        <svg id="menuIconClose" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Slide dari kanan) -->
+        <div id="mobileMenu" class="mobile-menu fixed top-0 right-0 h-full w-72 bg-navy-light shadow-2xl lg:hidden z-40 pt-20 px-6">
+            <nav class="flex flex-col gap-2">
+                <a href="#home" class="mobile-nav-link block px-4 py-3 text-white/80 hover:text-gold hover:bg-white/5 rounded-lg transition-all">🏠 Home</a>
+                <a href="#gallery" class="mobile-nav-link block px-4 py-3 text-white/80 hover:text-gold hover:bg-white/5 rounded-lg transition-all">🖼️ Galeri</a>
+                <a href="#news" class="mobile-nav-link block px-4 py-3 text-white/80 hover:text-gold hover:bg-white/5 rounded-lg transition-all">📰 News</a>
+                <a href="#programs" class="mobile-nav-link block px-4 py-3 text-white/80 hover:text-gold hover:bg-white/5 rounded-lg transition-all">📚 Our Programs</a>
+                <a href="#registration" class="block px-4 py-3 mt-2 text-center font-semibold bg-gold text-navy rounded-full hover:bg-gold-light transition-all shadow-md">
+                    ✍️ Pendaftaran
+                </a>
+            </nav>
+        </div>
+        <!-- Overlay mobile -->
+        <div id="mobileOverlay" class="fixed inset-0 bg-black/50 hidden lg:hidden z-30" aria-hidden="true"></div>
+    </header>
+
+    <!-- Search Overlay -->
+    <div id="searchOverlay" class="search-overlay fixed inset-0 z-[60] bg-navy/95 backdrop-blur-sm flex items-start justify-center pt-28 px-4">
+        <div class="w-full max-w-xl">
+            <div class="relative">
+                <input type="text" id="searchInput"
+                       placeholder="Cari program, berita, atau kegiatan..."
+                       class="w-full px-6 py-4 pr-14 text-lg bg-white rounded-2xl shadow-2xl outline-none focus:ring-4 focus:ring-gold/40 transition-all"
+                       autofocus>
+                <button id="searchClose" class="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-gray-400 hover:text-accent-red transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ==================== HERO SECTION ==================== -->
+    <section id="home" class="pt-24 lg:pt-32 pb-16 lg:pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="grid lg:grid-cols-5 gap-8 lg:gap-12 items-center">
+
+            <!-- Kolom Kiri: Kolase Foto -->
+            <div class="lg:col-span-3 relative animate-fade-in">
+                <div class="hero-collage">
+                    <!-- Foto utama (besar) -->
+                    <div class="img-main img-card shadow-lg">
+                        <img src="https://picsum.photos/seed/cairo1/600/850"
+                             alt="Mentari Ilmu Cairo - Kegiatan Belajar"
+                             loading="eager">
+                    </div>
+                    <!-- Foto kecil atas -->
+                    <div class="img-top img-card shadow-md">
+                        <img src="https://picsum.photos/seed/cairo2/400/350"
+                             alt="Mentari Ilmu Cairo - Diskusi"
+                             loading="lazy">
+                    </div>
+                    <!-- Foto sedang bawah -->
+                    <div class="img-bottom img-card shadow-md">
+                        <img src="https://picsum.photos/seed/cairo3/400/450"
+                             alt="Mentari Ilmu Cairo - Wisuda"
+                             loading="lazy">
+                    </div>
+
+                    <!-- Floating Badge -->
+                    <div class="floating-badge">
+                        <p class="text-xs uppercase tracking-wider text-gold-light font-medium">🏆 Achievement</p>
+                        <p class="text-lg lg:text-xl font-display font-bold text-white leading-tight">Empowering Students<br>in Cairo</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kolom Kanan: Konten Teks -->
+            <div class="lg:col-span-2 animate-slide-up">
+                <!-- Garis aksen emas -->
+                <div class="w-16 h-1 bg-gold rounded-full mb-4"></div>
+
+                <!-- Headline -->
+                <h1 class="text-3xl lg:text-4xl xl:text-5xl font-display font-bold text-navy leading-tight mb-3">
+                    Hi! We're<br>
+                    <span class="text-gold">Mentari Ilmu</span><br>
+                    Cairo Program
+                </h1>
+
+                <!-- Garis bergelombang dekoratif (SVG) -->
+                <svg class="wave-decoration my-3" width="80" height="22" viewBox="0 0 80 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 11 Q10 0, 20 11 T40 11 T60 11 T80 11"
+                          stroke="#982637" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                    <path d="M0 16 Q10 5, 20 16 T40 16 T60 16 T80 16"
+                          stroke="#C8923E" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.6"/>
+                </svg>
+
+                <!-- Deskripsi -->
+                <p class="text-gray-600 leading-relaxed mb-6 text-sm lg:text-base max-w-md">
+                    Program pembinaan akademik dan spiritual untuk mahasiswa Indonesia di Kairo, Mesir.
+                    Kami berkomitmen mencetak generasi unggul yang berilmu, berakhlak, dan siap berkontribusi
+                    untuk bangsa dan agama.
+                </p>
+
+                <!-- CTA Buttons -->
+                <div class="flex flex-wrap gap-3">
+                    <a href="#programs" class="inline-flex items-center gap-2 px-6 py-3 bg-navy text-white font-semibold rounded-full hover:bg-navy-light transition-all shadow-lg hover:shadow-xl text-sm">
+                        Jelajahi Program
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                        </svg>
+                    </a>
+                    <a href="#registration" class="inline-flex items-center gap-2 px-6 py-3 border-2 border-gold text-gold-dark font-semibold rounded-full hover:bg-gold hover:text-white transition-all text-sm">
+                        Daftar Sekarang
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== PARTNERSHIP CAROUSEL ==================== -->
+        <div class="mt-16 lg:mt-20 pt-10 border-t border-gray-200">
+            <p class="text-center text-xs uppercase tracking-widest text-gray-400 font-medium mb-6">Our Partnerships</p>
+            <div class="relative max-w-4xl mx-auto">
+                <!-- Carousel -->
+                <div id="partnershipCarousel" class="carousel-container flex gap-8 overflow-x-auto scroll-smooth pb-4 items-center justify-start lg:justify-center">
+                    <!-- Partner items (akan diisi JS atau static) -->
+                    <div class="flex-shrink-0 w-28 h-16 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center p-3 grayscale hover:grayscale-0 transition-all duration-300 hover:shadow-md">
+                        <span class="text-xs text-gray-400 font-medium">Al-Azhar Univ.</span>
+                    </div>
+                    <div class="flex-shrink-0 w-28 h-16 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center p-3 grayscale hover:grayscale-0 transition-all duration-300 hover:shadow-md">
+                        <span class="text-xs text-gray-400 font-medium">KBRI Kairo</span>
+                    </div>
+                    <div class="flex-shrink-0 w-28 h-16 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center p-3 grayscale hover:grayscale-0 transition-all duration-300 hover:shadow-md">
+                        <span class="text-xs text-gray-400 font-medium">Cairo University</span>
+                    </div>
+                    <div class="flex-shrink-0 w-28 h-16 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center p-3 grayscale hover:grayscale-0 transition-all duration-300 hover:shadow-md">
+                        <span class="text-xs text-gray-400 font-medium">PPMI Mesir</span>
+                    </div>
+                    <div class="flex-shrink-0 w-28 h-16 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center p-3 grayscale hover:grayscale-0 transition-all duration-300 hover:shadow-md">
+                        <span class="text-xs text-gray-400 font-medium">NU Mesir</span>
+                    </div>
+                    <div class="flex-shrink-0 w-28 h-16 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center p-3 grayscale hover:grayscale-0 transition-all duration-300 hover:shadow-md">
+                        <span class="text-xs text-gray-400 font-medium">Muhammadiyah</span>
+                    </div>
+                </div>
+
+                <!-- Arrow Navigasi -->
+                <button id="carouselPrev" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 lg:-translate-x-10 w-9 h-9 bg-white shadow-lg rounded-full flex items-center justify-center text-navy hover:bg-navy hover:text-white transition-all z-10 hidden lg:flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                <button id="carouselNext" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 lg:translate-x-10 w-9 h-9 bg-white shadow-lg rounded-full flex items-center justify-center text-navy hover:bg-navy hover:text-white transition-all z-10 hidden lg:flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================== ABOUT SECTION ==================== -->
+    <section class="py-16 lg:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="animate-fade-in">
+                    <span class="text-gold font-semibold text-sm uppercase tracking-wider">Tentang Kami</span>
+                    <h2 class="text-2xl lg:text-3xl font-display font-bold text-navy mt-2 mb-4">
+                        Membangun Generasi<br>Unggul di Bumi Kinanah
+                    </h2>
+                    <div class="w-12 h-1 bg-accent-red rounded-full mb-5"></div>
+                    <p class="text-gray-600 leading-relaxed mb-4">
+                        Mentari Ilmu Cairo Program hadir sebagai wadah pembinaan bagi mahasiswa Indonesia
+                        yang menempuh studi di Kairo, Mesir. Kami menggabungkan pendampingan akademik
+                        dengan pembinaan karakter Islami untuk melahirkan lulusan yang kompeten dan berintegritas.
+                    </p>
+                    <p class="text-gray-600 leading-relaxed">
+                        Dengan jaringan mentor berpengalaman dan kemitraan strategis bersama institusi
+                        pendidikan terkemuka di Mesir, kami memastikan setiap peserta mendapatkan
+                        bimbingan terbaik selama masa studi mereka.
+                    </p>
+                    <div class="flex gap-8 mt-8">
+                        <div>
+                            <p class="text-3xl font-display font-bold text-navy">500<span class="text-gold">+</span></p>
+                            <p class="text-xs text-gray-500 mt-1">Mahasiswa Dibina</p>
+                        </div>
+                        <div>
+                            <p class="text-3xl font-display font-bold text-navy">25<span class="text-gold">+</span></p>
+                            <p class="text-xs text-gray-500 mt-1">Mentor Professional</p>
+                        </div>
+                        <div>
+                            <p class="text-3xl font-display font-bold text-navy">10<span class="text-gold">+</span></p>
+                            <p class="text-xs text-gray-500 mt-1">Mitra Institusi</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative animate-slide-up">
+                    <div class="bg-navy rounded-2xl p-8 lg:p-10 text-white shadow-xl">
+                        <h3 class="text-xl font-display font-bold text-gold mb-4">✨ Visi Kami</h3>
+                        <p class="text-white/85 leading-relaxed mb-6">
+                            Menjadi pusat pembinaan mahasiswa Indonesia terdepan di Timur Tengah
+                            yang melahirkan sarjana Muslim berdaya saing global, berakhlak mulia,
+                            dan berkontribusi nyata bagi peradaban.
+                        </p>
+                        <h3 class="text-xl font-display font-bold text-gold mb-4">🎯 Misi Kami</h3>
+                        <ul class="text-white/85 space-y-2">
+                            <li class="flex items-start gap-2">
+                                <span class="text-gold mt-1">▸</span>
+                                Menyediakan pendampingan akademik terstruktur
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-gold mt-1">▸</span>
+                                Membina karakter Islami melalui program tarbiyah
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-gold mt-1">▸</span>
+                                Menjembatani mahasiswa dengan jaringan profesional
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-gold mt-1">▸</span>
+                                Mendorong kontribusi sosial di masyarakat
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Elemen dekoratif -->
+                    <div class="absolute -bottom-3 -right-3 w-24 h-24 bg-gold/20 rounded-2xl -z-10 hidden lg:block"></div>
+                    <div class="absolute -top-3 -left-3 w-16 h-16 bg-accent-red/15 rounded-2xl -z-10 hidden lg:block"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================== OUR PROGRAMS SECTION ==================== -->
+    <section id="programs" class="py-16 lg:py-24 bg-cream">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-gold font-semibold text-sm uppercase tracking-wider">Our Programs</span>
+                <h2 class="text-2xl lg:text-3xl font-display font-bold text-navy mt-2">Program Unggulan Kami</h2>
+                <div class="w-12 h-1 bg-accent-red rounded-full mx-auto mt-3"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Program Card 1 -->
+                <div class="program-card bg-white rounded-2xl p-6 shadow-md border border-gray-100">
+                    <div class="w-12 h-12 bg-navy rounded-xl flex items-center justify-center mb-4">
+                        <span class="text-2xl">📖</span>
+                    </div>
+                    <h3 class="text-lg font-display font-bold text-navy mb-2">Tahfidz & Tahsin Al-Qur'an</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Program menghafal dan memperbaiki bacaan Al-Qur'an dengan bimbingan para syaikh bersanad dari Al-Azhar.</p>
+                    <a href="#" class="inline-flex items-center gap-1 mt-4 text-gold-dark font-medium text-sm hover:text-gold transition-colors">
+                        Selengkapnya <span>→</span>
+                    </a>
+                </div>
+
+                <!-- Program Card 2 -->
+                <div class="program-card bg-white rounded-2xl p-6 shadow-md border border-gray-100">
+                    <div class="w-12 h-12 bg-navy rounded-xl flex items-center justify-center mb-4">
+                        <span class="text-2xl">🎓</span>
+                    </div>
+                    <h3 class="text-lg font-display font-bold text-navy mb-2">Bimbingan Akademik</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Pendampingan intensif mata kuliah, persiapan ujian, dan strategi belajar efektif bersama mentor senior.</p>
+                    <a href="#" class="inline-flex items-center gap-1 mt-4 text-gold-dark font-medium text-sm hover:text-gold transition-colors">
+                        Selengkapnya <span>→</span>
+                    </a>
+                </div>
+
+                <!-- Program Card 3 -->
+                <div class="program-card bg-white rounded-2xl p-6 shadow-md border border-gray-100">
+                    <div class="w-12 h-12 bg-navy rounded-xl flex items-center justify-center mb-4">
+                        <span class="text-2xl">🌍</span>
+                    </div>
+                    <h3 class="text-lg font-display font-bold text-navy mb-2">Daurah Bahasa Arab</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Kursus intensif bahasa Arab dari level dasar hingga mahir untuk menunjang perkuliahan di universitas Mesir.</p>
+                    <a href="#" class="inline-flex items-center gap-1 mt-4 text-gold-dark font-medium text-sm hover:text-gold transition-colors">
+                        Selengkapnya <span>→</span>
+                    </a>
+                </div>
+
+                <!-- Program Card 4 -->
+                <div class="program-card bg-white rounded-2xl p-6 shadow-md border border-gray-100">
+                    <div class="w-12 h-12 bg-navy rounded-xl flex items-center justify-center mb-4">
+                        <span class="text-2xl">🤝</span>
+                    </div>
+                    <h3 class="text-lg font-display font-bold text-navy mb-2">Pengabdian Masyarakat</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Kegiatan sosial kemasyarakatan untuk menumbuhkan kepedulian dan jiwa kepemimpinan mahasiswa.</p>
+                    <a href="#" class="inline-flex items-center gap-1 mt-4 text-gold-dark font-medium text-sm hover:text-gold transition-colors">
+                        Selengkapnya <span>→</span>
+                    </a>
+                </div>
+
+                <!-- Program Card 5 -->
+                <div class="program-card bg-white rounded-2xl p-6 shadow-md border border-gray-100">
+                    <div class="w-12 h-12 bg-navy rounded-xl flex items-center justify-center mb-4">
+                        <span class="text-2xl">💡</span>
+                    </div>
+                    <h3 class="text-lg font-display font-bold text-navy mb-2">Soft Skills Development</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Pelatihan public speaking, leadership, dan keterampilan profesional lainnya untuk bekal pasca studi.</p>
+                    <a href="#" class="inline-flex items-center gap-1 mt-4 text-gold-dark font-medium text-sm hover:text-gold transition-colors">
+                        Selengkapnya <span>→</span>
+                    </a>
+                </div>
+
+                <!-- Program Card 6 -->
+                <div class="program-card bg-white rounded-2xl p-6 shadow-md border border-gray-100">
+                    <div class="w-12 h-12 bg-navy rounded-xl flex items-center justify-center mb-4">
+                        <span class="text-2xl">🏕️</span>
+                    </div>
+                    <h3 class="text-lg font-display font-bold text-navy mb-2">Rihlah & Dauroh</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Kegiatan rihlah ilmiah dan dauroh ke tempat-tempat bersejarah di Mesir untuk memperkaya wawasan.</p>
+                    <a href="#" class="inline-flex items-center gap-1 mt-4 text-gold-dark font-medium text-sm hover:text-gold transition-colors">
+                        Selengkapnya <span>→</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================== GALLERY SECTION ==================== -->
+    <section id="gallery" class="py-16 lg:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-gold font-semibold text-sm uppercase tracking-wider">Galeri</span>
+                <h2 class="text-2xl lg:text-3xl font-display font-bold text-navy mt-2">Dokumentasi Kegiatan</h2>
+                <div class="w-12 h-1 bg-accent-red rounded-full mx-auto mt-3"></div>
+            </div>
+
+            <!-- Grid Galeri -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 lg:gap-4">
+                <div class="aspect-square rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all group">
+                    <img src="https://picsum.photos/seed/gallery1/500/500" alt="Kegiatan 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                </div>
+                <div class="aspect-square rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all group">
+                    <img src="https://picsum.photos/seed/gallery2/500/500" alt="Kegiatan 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                </div>
+                <div class="aspect-square rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all group">
+                    <img src="https://picsum.photos/seed/gallery3/500/500" alt="Kegiatan 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                </div>
+                <div class="aspect-square rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all group">
+                    <img src="https://picsum.photos/seed/gallery4/500/500" alt="Kegiatan 4" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                </div>
+                <div class="aspect-square rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all group hidden md:block">
+                    <img src="https://picsum.photos/seed/gallery5/500/500" alt="Kegiatan 5" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                </div>
+                <div class="aspect-square rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all group hidden md:block">
+                    <img src="https://picsum.photos/seed/gallery6/500/500" alt="Kegiatan 6" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                </div>
+                <div class="aspect-square rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all group hidden lg:block">
+                    <img src="https://picsum.photos/seed/gallery7/500/500" alt="Kegiatan 7" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                </div>
+                <div class="aspect-square rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all group hidden lg:block">
+                    <img src="https://picsum.photos/seed/gallery8/500/500" alt="Kegiatan 8" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                </div>
+            </div>
+
+            <div class="text-center mt-8">
+                <a href="#" class="inline-flex items-center gap-2 px-6 py-3 bg-navy text-white font-semibold rounded-full hover:bg-navy-light transition-all shadow-md text-sm">
+                    Lihat Semua Galeri
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================== NEWS SECTION ==================== -->
+    <section id="news" class="py-16 lg:py-24 bg-cream">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-end justify-between mb-12">
+                <div>
+                    <span class="text-gold font-semibold text-sm uppercase tracking-wider">News</span>
+                    <h2 class="text-2xl lg:text-3xl font-display font-bold text-navy mt-2">Berita Terbaru</h2>
+                    <div class="w-12 h-1 bg-accent-red rounded-full mt-3"></div>
+                </div>
+                <a href="#" class="hidden sm:inline-flex items-center gap-1 text-gold-dark font-medium text-sm hover:text-gold transition-colors">
+                    Semua Berita <span>→</span>
+                </a>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- News Card 1 -->
+                <article class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-all group">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/seed/news1/600/400" alt="Berita 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <div class="p-5">
+                        <span class="text-xs text-gold font-semibold uppercase tracking-wider">Akademik</span>
+                        <h3 class="font-display font-bold text-navy mt-2 mb-2 group-hover:text-gold-dark transition-colors">Pembukaan Program Tahfidz Semester Ganjil 2025/2026</h3>
+                        <p class="text-gray-500 text-sm line-clamp-2">Program tahfidz Al-Qur'an kembali dibuka untuk mahasiswa baru dan lama. Pendaftaran berlangsung hingga 15 Agustus...</p>
+                        <span class="text-xs text-gray-400 mt-3 block">12 Juni 2025</span>
+                    </div>
+                </article>
+
+                <!-- News Card 2 -->
+                <article class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-all group">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/seed/news2/600/400" alt="Berita 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <div class="p-5">
+                        <span class="text-xs text-gold font-semibold uppercase tracking-wider">Kegiatan</span>
+                        <h3 class="font-display font-bold text-navy mt-2 mb-2 group-hover:text-gold-dark transition-colors">Rihlah Ilmiah ke Perpustakaan Alexandria</h3>
+                        <p class="text-gray-500 text-sm line-clamp-2">Sebanyak 40 mahasiswa mengikuti kunjungan ilmiah ke Bibliotheca Alexandrina untuk memperdalam wawasan...</p>
+                        <span class="text-xs text-gray-400 mt-3 block">5 Juni 2025</span>
+                    </div>
+                </article>
+
+                <!-- News Card 3 -->
+                <article class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-all group">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/seed/news3/600/400" alt="Berita 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <div class="p-5">
+                        <span class="text-xs text-gold font-semibold uppercase tracking-wider">Prestasi</span>
+                        <h3 class="font-display font-bold text-navy mt-2 mb-2 group-hover:text-gold-dark transition-colors">Mahasiswa Binaan Raih Predikat Cumlaude di Al-Azhar</h3>
+                        <p class="text-gray-500 text-sm line-clamp-2">Tiga mahasiswa binaan Mentari Ilmu Cairo berhasil meraih predikat cumlaude pada wisuda tahun ini...</p>
+                        <span class="text-xs text-gray-400 mt-3 block">28 Mei 2025</span>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Mobile link -->
+            <div class="text-center mt-8 sm:hidden">
+                <a href="#" class="inline-flex items-center gap-1 text-gold-dark font-medium text-sm hover:text-gold transition-colors">
+                    Semua Berita <span>→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================== REGISTRATION CTA ==================== -->
+    <section id="registration" class="py-16 lg:py-20 bg-navy relative overflow-hidden">
+        <!-- Decorative elements -->
+        <div class="absolute top-0 left-0 w-64 h-64 bg-gold/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+        <div class="absolute bottom-0 right-0 w-80 h-80 bg-accent-red/10 rounded-full translate-x-1/3 translate-y-1/3 blur-3xl"></div>
+
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <span class="text-gold font-semibold text-sm uppercase tracking-wider">Pendaftaran</span>
+            <h2 class="text-2xl lg:text-3xl font-display font-bold text-white mt-2 mb-4">
+                Bergabunglah Bersama<br>Mentari Ilmu Cairo Program
+            </h2>
+            <p class="text-white/70 max-w-xl mx-auto mb-8 leading-relaxed">
+                Buka peluang untuk berkembang secara akademik dan spiritual selama menempuh studi di Kairo.
+                Daftarkan dirimu sekarang dan jadilah bagian dari keluarga besar Mentari Ilmu.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#" class="px-8 py-3.5 bg-gold text-navy font-bold rounded-full hover:bg-gold-light transition-all shadow-xl hover:shadow-2xl text-sm">
+                    Daftar Online Sekarang
+                </a>
+                <a href="#" class="px-8 py-3.5 border-2 border-white/30 text-white font-semibold rounded-full hover:bg-white/10 transition-all text-sm">
+                    Hubungi Kami
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="bg-navy-dark text-white/70 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8 mb-12">
+                <!-- Brand -->
+                <div class="md:col-span-1">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-white p-0.5 overflow-hidden">
+                            <img src="assets/images/logo.jpeg" alt="Logo" class="w-full h-full object-contain rounded-md"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="w-full h-full hidden items-center justify-center bg-navy text-gold font-bold text-xs rounded-md">MIC</div>
+                        </div>
+                        <span class="text-white font-semibold text-sm">Mentari Ilmu Cairo</span>
+                    </div>
+                    <p class="text-xs leading-relaxed text-white/50">
+                        Program pembinaan mahasiswa Indonesia di Kairo, Mesir. Mencetak generasi unggul, berilmu, dan berakhlak mulia.
+                    </p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-white font-semibold mb-4 text-sm">Menu Cepat</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#home" class="hover:text-gold transition-colors">Home</a></li>
+                        <li><a href="#gallery" class="hover:text-gold transition-colors">Galeri</a></li>
+                        <li><a href="#news" class="hover:text-gold transition-colors">News</a></li>
+                        <li><a href="#programs" class="hover:text-gold transition-colors">Our Programs</a></li>
+                        <li><a href="#registration" class="hover:text-gold transition-colors">Pendaftaran</a></li>
+                    </ul>
+                </div>
+
+                <!-- Programs -->
+                <div>
+                    <h4 class="text-white font-semibold mb-4 text-sm">Program</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-gold transition-colors">Tahfidz Al-Qur'an</a></li>
+                        <li><a href="#" class="hover:text-gold transition-colors">Bimbingan Akademik</a></li>
+                        <li><a href="#" class="hover:text-gold transition-colors">Daurah Bahasa Arab</a></li>
+                        <li><a href="#" class="hover:text-gold transition-colors">Pengabdian Masyarakat</a></li>
+                        <li><a href="#" class="hover:text-gold transition-colors">Soft Skills Development</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="text-white font-semibold mb-4 text-sm">Kontak</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-start gap-2">
+                            <span class="text-gold mt-0.5">📍</span>
+                            <span>Kairo, Mesir — Hayyu Sadis, Nasr City</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-gold mt-0.5">📧</span>
+                            <span>mentari.ilmu@cairoprogram.id</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-gold mt-0.5">📱</span>
+                            <span>+20 1XX XXX XXXX</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom bar -->
+            <div class="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p class="text-xs text-white/40">
+                    &copy; 2025 Mentari Ilmu Cairo Program. All rights reserved.
+                </p>
+                <div class="flex gap-4 text-xs text-white/40">
+                    <a href="#" class="hover:text-white transition-colors">Kebijakan Privasi</a>
+                    <a href="#" class="hover:text-white transition-colors">Syarat & Ketentuan</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- ==================== JAVASCRIPT ==================== -->
+    <script>
+        (function() {
+            // ----- Mobile Menu Toggle -----
+            const menuToggle = document.getElementById('menuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+            const menuIconOpen = document.getElementById('menuIconOpen');
+            const menuIconClose = document.getElementById('menuIconClose');
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+            function openMobileMenu() {
+                mobileMenu.classList.add('active');
+                mobileOverlay.classList.remove('hidden');
+                menuIconOpen.classList.add('hidden');
+                menuIconClose.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeMobileMenu() {
+                mobileMenu.classList.remove('active');
+                mobileOverlay.classList.add('hidden');
+                menuIconOpen.classList.remove('hidden');
+                menuIconClose.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+
+            menuToggle.addEventListener('click', () => {
+                if (mobileMenu.classList.contains('active')) {
+                    closeMobileMenu();
+                } else {
+                    openMobileMenu();
+                }
+            });
+
+            mobileOverlay.addEventListener('click', closeMobileMenu);
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', closeMobileMenu);
+            });
+
+            // ----- Search Overlay Toggle -----
+            const searchToggle = document.getElementById('searchToggle');
+            const searchOverlay = document.getElementById('searchOverlay');
+            const searchClose = document.getElementById('searchClose');
+            const searchInput = document.getElementById('searchInput');
+
+            searchToggle.addEventListener('click', () => {
+                searchOverlay.classList.add('active');
+                setTimeout(() => searchInput.focus(), 100);
+                document.body.style.overflow = 'hidden';
+            });
+
+            searchClose.addEventListener('click', () => {
+                searchOverlay.classList.remove('active');
+                searchInput.value = '';
+                document.body.style.overflow = '';
+            });
+
+            searchOverlay.addEventListener('click', (e) => {
+                if (e.target === searchOverlay) {
+                    searchOverlay.classList.remove('active');
+                    searchInput.value = '';
+                    document.body.style.overflow = '';
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && searchOverlay.classList.contains('active')) {
+                    searchOverlay.classList.remove('active');
+                    searchInput.value = '';
+                    document.body.style.overflow = '';
+                }
+            });
+
+            // ----- Partnership Carousel -----
+            const carousel = document.getElementById('partnershipCarousel');
+            const prevBtn = document.getElementById('carouselPrev');
+            const nextBtn = document.getElementById('carouselNext');
+
+            if (carousel && prevBtn && nextBtn) {
+                const scrollAmount = 250;
+                prevBtn.addEventListener('click', () => {
+                    carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                });
+                nextBtn.addEventListener('click', () => {
+                    carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                });
+
+                // Auto-scroll carousel
+                let autoScrollInterval;
+                function startAutoScroll() {
+                    autoScrollInterval = setInterval(() => {
+                        if (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 10) {
+                            carousel.scrollTo({ left: 0, behavior: 'smooth' });
+                        } else {
+                            carousel.scrollBy({ left: 200, behavior: 'smooth' });
+                        }
+                    }, 3000);
+                }
+                function stopAutoScroll() {
+                    clearInterval(autoScrollInterval);
+                }
+
+                carousel.addEventListener('mouseenter', stopAutoScroll);
+                carousel.addEventListener('mouseleave', startAutoScroll);
+                startAutoScroll();
+            }
+
+            // ----- Header Shadow on Scroll -----
+            const header = document.getElementById('mainHeader');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 20) {
+                    header.classList.add('shadow-xl');
+                } else {
+                    header.classList.remove('shadow-xl');
+                }
+            });
+
+            // ----- Active Nav Link on Scroll -----
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            function updateActiveLink() {
+                let scrollPos = window.scrollY + 120;
+                sections.forEach(section => {
+                    const top = section.offsetTop;
+                    const height = section.offsetHeight;
+                    const id = section.getAttribute('id');
+                    if (scrollPos >= top && scrollPos < top + height) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('text-gold', 'font-semibold');
+                            link.classList.add('text-white/80');
+                            if (link.getAttribute('href') === '#' + id) {
+                                link.classList.add('text-gold', 'font-semibold');
+                                link.classList.remove('text-white/80');
+                            }
+                        });
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', updateActiveLink, { passive: true });
+
+            // ----- Smooth reveal on scroll (Intersection Observer) -----
+            const revealElements = document.querySelectorAll('.animate-fade-in, .animate-slide-up');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+            revealElements.forEach(el => {
+                // Set initial state for JS-based animation
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+
+            console.log('✅ Mentari Ilmu Cairo Program — Website siap.');
+        })();
+    </script>
+</body>
+</html>
+```
+
+---
+
+## 2. 🗄️ `database.sql` — Skema MySQL
+
+```sql
+-- =============================================
+-- Database: mentari_ilmu_cairo
+-- =============================================
+CREATE DATABASE IF NOT EXISTS `mentari_ilmu_cairo`
+  DEFAULT CHARACTER SET utf8mb4
+  COLLATE utf8mb4_unicode_ci;
+
+USE `mentari_ilmu_cairo`;
+
+-- Tabel Program
+CREATE TABLE `programs` (
+    `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `title` VARCHAR(200) NOT NULL,
+    `slug` VARCHAR(200) NOT NULL UNIQUE,
+    `description` TEXT NOT NULL,
+    `icon` VARCHAR(50) DEFAULT NULL,
+    `image` VARCHAR(255) DEFAULT NULL,
+    `is_active` TINYINT(1) DEFAULT 1,
+    `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+-- Tabel Galeri
+CREATE TABLE `galleries` (
+    `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `title` VARCHAR(200) NOT NULL,
+    `image` VARCHAR(255) NOT NULL,
+    `caption` TEXT DEFAULT NULL,
+    `category` ENUM('kegiatan', 'akademik', 'sosial', 'lainnya') DEFAULT 'kegiatan',
+    `is_published` TINYINT(1) DEFAULT 1,
+    `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+-- Tabel Berita
+CREATE TABLE `news` (
+    `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `title` VARCHAR(255) NOT NULL,
+    `slug` VARCHAR(255) NOT NULL UNIQUE,
+    `excerpt` TEXT NOT NULL,
+    `content` LONGTEXT NOT NULL,
+    `image` VARCHAR(255) DEFAULT NULL,
+    `category` VARCHAR(100) DEFAULT NULL,
+    `is_published` TINYINT(1) DEFAULT 0,
+    `published_at` DATETIME DEFAULT NULL,
+    `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+-- Tabel Partners
+CREATE TABLE `partners` (
+    `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(200) NOT NULL,
+    `logo` VARCHAR(255) NOT NULL,
+    `website` VARCHAR(255) DEFAULT NULL,
+    `sort_order` INT DEFAULT 0,
+    `is_active` TINYINT(1) DEFAULT 1,
+    `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+-- Tabel Pendaftaran
+CREATE TABLE `registrations` (
+    `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `full_name` VARCHAR(200) NOT NULL,
+    `email` VARCHAR(200) NOT NULL,
+    `phone` VARCHAR(30) DEFAULT NULL,
+    `university` VARCHAR(200) DEFAULT NULL,
+    `program_id` INT UNSIGNED DEFAULT NULL,
+    `message` TEXT DEFAULT NULL,
+    `status` ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
+    `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (`program_id`) REFERENCES `programs`(`id`) ON DELETE SET NULL
+) ENGINE=InnoDB;
+
+-- Seed: sample data
+INSERT INTO `programs` (`title`, `slug`, `description`, `icon`) VALUES
+('Tahfidz & Tahsin Al-Qur\'an', 'tahfidz-tahsin', 'Program menghafal dan memperbaiki bacaan Al-Qur\'an dengan bimbingan syaikh bersanad dari Al-Azhar.', '📖'),
+('Bimbingan Akademik', 'bimbingan-akademik', 'Pendampingan intensif mata kuliah dan persiapan ujian bersama mentor senior.', '
